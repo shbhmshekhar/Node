@@ -5,23 +5,47 @@ const yargs = require('yargs');
 //customize app version using yargs
 yargs.version('1.1.0');
 
-// const command = process.argv[2];
-
-// switch (command) {
-//   case 'add':
-//     console.log('Adding note');
-//     break;
-//   case 'remove':
-//     console.log('Removing note');
-//     break;
-// }
-
-// console.log(process.argv);
-
 yargs.command({
   command: 'add',
   describe: 'add a new note',
-  handler: function () {
-    console.log('Add a new note');
+  builder: {
+    title: {
+      describe: 'Note Title',
+      demandOption: true,
+      type: 'string',
+    },
+    body: {
+      describe: 'Note body text',
+      demandOption: true,
+      type: 'string',
+    },
+  },
+  handler: function (argv) {
+    console.log('Title: ', chalk.yellow.bold(argv.title));
+    console.log('Body: ', chalk.yellow.bold(argv.body));
   },
 });
+
+yargs.command({
+  command: 'remove',
+  describe: 'remove a  note',
+  handler: function () {
+    console.log('Removing note');
+  },
+});
+yargs.command({
+  command: 'list',
+  describe: 'List all notes',
+  handler: function () {
+    console.log('Listing all notes');
+  },
+});
+yargs.command({
+  command: 'read',
+  describe: 'Reading a selected note',
+  handler: function () {
+    console.log('opening note to read');
+  },
+});
+yargs.parse();
+// console.log(yargs.argv);
