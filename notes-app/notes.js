@@ -31,4 +31,20 @@ const addNote = (title, body) => {
   }
 };
 
-module.exports = { getNotes, addNote };
+const removeNote = (title) => {
+  const notes = loadNotes();
+  if (notes.length > 0) {
+    const updatedNotesList = notes.filter((note) => note.title !== title);
+    if (notes.length !== updatedNotesList.length) {
+      saveNotes(updatedNotesList);
+      console.log(chalk.green.inverse.bold('Note sucessfully removed!!'));
+    } else {
+      console.log(
+        chalk.red.inverse(`Note with title ${chalk.bold(title)} does not exist`)
+      );
+    }
+  } else {
+    console.log(chalk.red.inverse.bold('No note exists'));
+  }
+};
+module.exports = { getNotes, addNote, removeNote };
