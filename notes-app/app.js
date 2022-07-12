@@ -21,8 +21,7 @@ yargs.command({
     },
   },
   handler: function (argv) {
-    console.log('Title: ', chalk.yellow.bold(argv.title));
-    console.log('Body: ', chalk.yellow.bold(argv.body));
+    notes.addNote(argv.title, argv.body);
   },
 });
 
