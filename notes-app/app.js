@@ -1,8 +1,12 @@
 const notes = require('./notes');
-const validator = require('validator');
-const chalk = require('chalk');
 
-console.log('Notes', notes.getNotes());
+const command = process.argv[2];
 
-console.log(validator.isEmail('abc@test.com'));
-console.log(chalk.red.bold.inverse('error!!'));
+switch (command) {
+  case 'add':
+    console.log('Adding note');
+    break;
+  case 'remove':
+    console.log('Removing note');
+    break;
+}
