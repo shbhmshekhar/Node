@@ -47,4 +47,53 @@ const removeNote = (title) => {
     console.log(chalk.red.inverse.bold('No note exists'));
   }
 };
-module.exports = { getNotes, addNote, removeNote };
+
+const listNotes = () => {
+  const notes = loadNotes();
+  if (notes.length > 0) {
+    console.log(chalk.white.inverse.bold('Following are all your Notes'));
+    notes.forEach((note, index) => {
+      console.log(
+        `${chalk.white(index + 1 + '.')} Title: ${chalk.white.bold(note.title)}`
+      );
+      console.log(`${chalk.white(note.body)}`);
+    });
+  } else {
+    console.log(
+      `${chalk.red.bold.inverse(
+        `No Note saved. Add some using ${chalk.blue.bold.inverse(
+          'add'
+        )} command `
+      )}`
+    );
+  }
+};
+
+const read = (title) => {
+  const notes = loadNotes();
+
+  if (notes.length > 0) {
+    const noteToOpen = notes.filter((note) => note.title === title);
+
+    if (noteToOpen.length > 0) {
+      console.log(`Title: ${chalk.white.bold.inverse(noteToOpen[0].title)}`);
+      console.log(`Body: ${chalk.white.inverse(noteToOpen[0].body)}`);
+    } else {
+      console.log(
+        `${chalk.red.bold.inverse(
+          ` Note with title ${chalk.white.bold.inverse(title)} does not exist`
+        )}`
+      );
+    }
+  } else {
+    console.log(
+      `${chalk.red.bold.inverse(
+        `No Note saved. Add some using ${chalk.blue.bold.inverse(
+          'add'
+        )} command `
+      )}`
+    );
+  }
+};
+
+module.exports = { getNotes, addNote, removeNote, listNotes, read };
