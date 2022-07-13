@@ -54,4 +54,6 @@ yargs.command({
   },
 });
 yargs.parse();
+
+console.log(__dirname);
 // console.log(yargs.argv);
