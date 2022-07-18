@@ -1,4 +1,5 @@
 const path = require('path');
+const chalk = require('chalk');
 const express = require('express');
 
 const app = express();
@@ -24,11 +25,30 @@ app.use(express.static(publicDirPath));
 //     '<h1 style="color: red">About page</h1><p>Details about the application</p>'
 //   );
 // });
+
+app.get('/products', (req, res) => {
+  console.log(req.query);
+  if (!req.query.search) {
+    return res.send({
+      error: 'you must provide a search term',
+    });
+  }
+  res.send({
+    products: [],
+  });
+});
+
 app.get('/weather', (req, res) => {
   //   res.send('Weather forecast is coming');
+  if (!req.query.address) {
+    return res.send({
+      error: 'Address is required for a forecast',
+    });
+  }
   res.send({
-    location: 'Bangalore',
+    location: 'Bangalore,IN',
     temperature: '24',
+    address: req.query.address,
   });
 });
 
