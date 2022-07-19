@@ -7,6 +7,9 @@ const app = express();
 const publicDirPath = path.join(__dirname, '../public');
 
 app.use(express.static(publicDirPath));
+
+const port = process.env.PORT || 3000;
+
 app.get('', (req, res) => {
   res.send('<h1>Hello World from Express</h1>'); //send HTML back
   //   res.send('Hello World from Express'); //send text
@@ -66,6 +69,6 @@ app.get('/products', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port:3000');
+app.listen(port, () => {
+  console.log(`Server running on port:${port}`);
 });

@@ -1,6 +1,6 @@
 console.log('Client side JS loaded');
 
-const baseURL = 'http://localhost:3000/';
+// const baseURL = 'http://localhost:3000/';
 
 const weatherForm = document.querySelector('form');
 const search = document.querySelector('input');
@@ -12,7 +12,7 @@ weatherForm.addEventListener('submit', async (e) => {
   const location = search.value;
 
   forecastmsg.textContent = 'Loading...';
-  const response = await fetch(`${baseURL}weather?address=${location}`);
+  const response = await fetch(`/weather?address=${location}`);
   const data = await response.json();
   if (data.error) {
     forecastmsg.textContent = '';
