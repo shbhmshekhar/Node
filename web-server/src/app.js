@@ -1,16 +1,44 @@
 const path = require('path');
 const chalk = require('chalk');
 const express = require('express');
-
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 const app = express();
 const publicDirPath = path.join(__dirname, '../public');
 
 app.use(express.static(publicDirPath));
-
-// app.get('', (req, res) => {
-//   res.send('<h1>Hello World from Express</h1>'); //send HTML back
-//   //   res.send('Hello World from Express'); //send text
-// });
+app.get('', (req, res) => {
+  res.send('<h1>Hello World from Express</h1>'); //send HTML back
+  //   res.send('Hello World from Express'); //send text
+});
+app.get('/weather', (req, res) => {
+  //   res.send('Weather forecast is coming');
+  if (!req.query.address) {
+    return res.send({
+      error: 'Address is required for a forecast',
+    });
+  }
+  const location = req.query.address;
+  geocode(location, (error, { longitude, latitude, location } = {}) => {
+    if (error) {
+      return res.send({
+        error,
+      });
+    }
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return res.send({
+          error,
+        });
+      }
+      res.send({
+        location,
+        forecast: forecastData,
+        address: req.query.address,
+      });
+    });
+  });
+});
 
 // app.get('/help', (req, res) => {
 //   //send JSON as a response
@@ -35,20 +63,6 @@ app.get('/products', (req, res) => {
   }
   res.send({
     products: [],
-  });
-});
-
-app.get('/weather', (req, res) => {
-  //   res.send('Weather forecast is coming');
-  if (!req.query.address) {
-    return res.send({
-      error: 'Address is required for a forecast',
-    });
-  }
-  res.send({
-    location: 'Bangalore,IN',
-    temperature: '24',
-    address: req.query.address,
   });
 });
 
